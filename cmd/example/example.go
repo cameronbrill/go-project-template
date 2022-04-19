@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/cameronbrill/go-project-template/pipeline"
@@ -15,10 +14,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	readStream, err := pipeline.Producer(ctx, source)
-	if err != nil {
-		log.Fatal(err)
-	}
+	readStream := pipeline.Producer(ctx, source)
 
 	lowerStage := make(chan string)
 	errorChannel := make(chan error)

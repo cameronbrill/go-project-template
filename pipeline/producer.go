@@ -1,8 +1,10 @@
 package pipeline
 
-import "context"
+import (
+	"context"
+)
 
-func Producer[T any](ctx context.Context, input []T) (<-chan T, error) {
+func Producer[T any](ctx context.Context, input []T) <-chan T {
 	outChannel := make(chan T)
 
 	go func() {
@@ -17,5 +19,5 @@ func Producer[T any](ctx context.Context, input []T) (<-chan T, error) {
 		}
 	}()
 
-	return outChannel, nil
+	return outChannel
 }
