@@ -1,11 +1,8 @@
 package cli
 
 import (
-	"encoding/json"
 	"flag"
-	"fmt"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -21,8 +18,6 @@ func Run(args []string) int {
 	}
 	if err = app.run(); err != nil {
 		panic(err)
-		fmt.Fprintf(os.Stderr, "Runtime error: %v\n", err)
-		return 1
 	}
 	return 0
 }
@@ -46,21 +41,11 @@ func (app *cli) validateArgs(args []string) error {
 }
 
 func (app *cli) run() error {
-	var resp APIResponse
+	var resp ExampleRes
 	if app.mock {
-		if err := app.fetchJSON(app.url, &resp); err != nil {
+		if err := fetchJSON(&app.hc, app.url, &resp); err != nil {
 			return err
 		}
 	}
 	return nil
-}
-
-func (app *cli) fetchJSON(url string, data interface{}) error {
-	resp, err := app.hc.Get(url)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	return json.NewDecoder(resp.Body).Decode(data)
 }
