@@ -5,23 +5,23 @@ import (
 	"log"
 )
 
-func Consumer[T any](ctx context.Context, cancelFunc context.CancelFunc, values <-chan T, errors <-chan error) {
+func Consumer[T any](ctx context.Context, cancelFunc context.CancelFunc, values <-chan T, errors <-chan error) error {
 	for {
 		select {
 		case <-ctx.Done():
-			log.Print(ctx.Err().Error())
-			return
-		case err := <-errors:
-			if err != nil {
-				log.Println("error: ", err.Error())
+			return ctx.Err()
+		case err, ok := <-errors:
+			if ok {
+				log.Printf("error: %v", err)
 				cancelFunc()
+				return err
 			}
 		case val, ok := <-values:
 			if !ok {
-				log.Print("done")
-				return
+				return nil
 			}
 			log.Printf("Consumed: %v", val)
+		default:
 		}
 	}
 }
