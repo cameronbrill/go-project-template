@@ -15,7 +15,7 @@ func Step[In any, Out any](ctx context.Context,
 ) {
 	defer close(outChan)
 
-	limit := runtime.NumCPU()
+	limit := runtime.GOMAXPROCS(0)
 	sem := semaphore.NewWeighted(int64(limit))
 
 	for in := range inChan {
