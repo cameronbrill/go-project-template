@@ -25,9 +25,12 @@ jobs:
           args: --config ./.golangci.yaml
           version: latest
   build:
+    strategy:
+      matrix:
+        package: [example, pipeline]
     name: build go binary
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build binary
-        run: go build .
+        run: go build ./cmd/${{ matrix.package }}
