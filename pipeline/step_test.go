@@ -4,12 +4,9 @@ import (
 	"context"
 	"strings"
 	"testing"
-)
 
-type Testable interface {
-	Test(t *testing.T)
-	Name() string
-}
+	test "github.com/cameronbrill/go-project-template/test"
+)
 
 type stepTest[T any, U comparable] struct {
 	name           string
@@ -47,7 +44,7 @@ func (st stepTest[T, U]) Test(t *testing.T) {
 }
 
 func TestStep(t *testing.T) {
-	tests := []Testable{
+	tests := []test.Testable{
 		stepTest[string, string]{
 			name:      "test string to string",
 			transform: func(s string) (string, error) { return strings.ToLower(s), nil },
