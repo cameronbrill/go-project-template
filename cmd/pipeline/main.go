@@ -51,5 +51,8 @@ func main() {
 		pipeline.Step(ctx, lowerStage, titleStage, errorChannel, transformB)
 	}()
 
-	pipeline.Consumer(ctx, cancel, titleStage, errorChannel)
+	err = pipeline.Consumer(ctx, cancel, titleStage, errorChannel)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
