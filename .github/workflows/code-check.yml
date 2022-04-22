@@ -33,4 +33,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build binary
-        run: go build ./cmd/${{ matrix.package }}
+        run: go build -o ./build/${{ matrix.package }} ./cmd/${{ matrix.package }}
