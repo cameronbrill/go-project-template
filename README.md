@@ -3,3 +3,7 @@
 
 # go project template
 Contains common things that I add to all of my go projects.
+
+
+### considerations
+please don't index code functionality by branch name. I do it here just to play around with things, but when you make an update to `main`, propogating that to every other branch is potentially a massive pain.
